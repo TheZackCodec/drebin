@@ -1,6 +1,6 @@
 import numpy as np
 import time
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer as TF
 from sklearn.model_selection import GridSearchCV
 from sklearn.svm import LinearSVC
@@ -63,7 +63,7 @@ def RandomClassification(MalwareCorpus, GoodwareCorpus, TestSize, FeatureOption,
     Logger.info("Perform Classification with SVM Model")
     Parameters= {'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000]}
 
-    T0 = time.time() 
+    T0 = time.time()
     if not Model:
         Clf = GridSearchCV(LinearSVC(), Parameters, cv= 5, scoring= 'f1', n_jobs=-1 )
         SVMModels= Clf.fit(x_train, y_train)
@@ -113,7 +113,7 @@ def RandomClassification(MalwareCorpus, GoodwareCorpus, TestSize, FeatureOption,
             explanations[os.path.basename(x_test_samplenames[i])]['top_features'] = wv_vocab[-NumTopFeats:]
         explanations[os.path.basename(x_test_samplenames[i])]['original_label'] = y_test[i]
         explanations[os.path.basename(x_test_samplenames[i])]['predicted_label'] = y_pred[i]
-   
+
     with open('explanations_RC.json','w') as FH:
         json.dump(explanations,FH,indent=4)
 
